@@ -13,6 +13,7 @@ function App() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [wheelDuration, setWheelDuration] = useState(4);
     const [volume, setVolume] = useState(50);
+    const [newText, setNewText] = useState("");
 
     const handleInputChange = (value, index) => {
         setInputText(inputText => {
@@ -137,8 +138,6 @@ function App() {
         let degrees = 0;
         let bgColors = ["#0a2373", "#184e80", "#227d87", "#45127a"];
         let bgStyle = "conic-gradient(";
-        
-
         if(length !== 0){
             for(let i = 0; i < length / 2 + 1; i++) {                    
                 newLine.push(<div key={"line" + i} style={{transform: `rotate(${degrees}deg)`}} className="wheel-lines"></div>);
@@ -160,15 +159,34 @@ function App() {
         document.getElementById("spin-win").load();
         document.getElementById("spin-win").play();
         let simplified = 360 - degrees % 360;
-        setWinVal([inputText[Math.floor(simplified / 360 * inputText.length)], Math.floor(simplified / 360 * inputText.length)]);
-        document.getElementById("win-container").style.visibility = "visible";
-        document.getElementById("win-container").style.opacity = "1";
+        let winText = inputText[Math.floor(simplified / 360 * inputText.length)];
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        context.font = "50px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+        let width = context.measureText(winText).width;
+        console.log(width);
+        let fontSize = 50;
+        if(width >= 380) {
+            fontSize = 380 / width * 50;
+        }
+        if(winText.trim() !== "") {
+            document.getElementById("win-message").style.fontSize = fontSize + "px";
+            setWinVal([winText, Math.floor(simplified / 360 * inputText.length)]);
+            document.getElementById("win-container").style.visibility = "visible";
+            document.getElementById("win-container").style.opacity = "1";
+            document.getElementById("black-screen").style.visibility = "visible";
+            document.getElementById("black-screen").style.opacity = "1";
+        } else {
+            handleWinClose();
+        }
     }
 
     const handleWinClose = () => {
         document.getElementById("win-container").style.visibility = "hidden";
         document.getElementById("win-container").style.opacity = "0";
         document.getElementById("app-container").style.pointerEvents = "auto";
+        document.getElementById("black-screen").style.visibility = "hidden";
+        document.getElementById("black-screen").style.opacity = "0";
     }
 
     const handleWheelSpin = () => {
@@ -242,6 +260,93 @@ function App() {
         setVolume(e);
     }
 
+    const addInputTable = (pre) => {
+        let finalInputs = [];
+        let finalInputText = [];
+        let finalInputSize = [];
+        let value = [];
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        context.font = "35px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+        for(let i = 0; i < pre.length; i++) {
+            if(pre[i] !== "" && pre[i].trim().length > 0) {
+                value.push(pre[i].trim());
+            }
+        }
+        for(let i = 0; i < value.length; i++) {
+            let width = context.measureText(value[i]).width;
+            let fontSize = (Math.sin((360 / (value.length)) * Math.PI / 180) * 80) * 0.9;
+            if(fontSize > 35 || value.length < 3) {
+                fontSize = 35;
+            }
+            if(width >= 190) {
+                fontSize = 190 / width * fontSize;
+                width = 190;
+            }
+            finalInputSize.push([fontSize, width]);
+            if(i !== value.length - 1) finalInputText.push(value[i]);
+            finalInputs.push(<input key={i} type="text" className = "text-input" value={value[i]} onChange={(e) => handleInputChange(e.target.value, i)}/>, 
+            <button key = {"delete" + (i)} className="delete-button pointer-hover" onClick={() => handleDeleteInputs(i)}>x</button>);
+        }
+        if(value.length > 0) {
+            handleWheelChange(value[value.length-1], value.length*2 - 2, finalInputText, finalInputSize);
+            setInputSize(finalInputSize);
+            setInputText(finalInputText.concat(value[value.length-1]));
+            setInputs(finalInputs);
+        }
+        closeInputTable();
+    }
+
+    const closeInputTable = () => {
+        document.getElementById("add-input-container").style.visibility = "hidden";
+        document.getElementById("add-input-container").style.opacity = "0";
+        document.getElementById("app-container").style.pointerEvents = "auto";
+        setNewText([]);
+        document.getElementById("black-screen").style.visibility = "hidden";
+        document.getElementById("black-screen").style.opacity = "0";
+    }
+
+    const openInputTable = () => {
+        document.getElementById("add-input-container").style.visibility = "visible";
+        document.getElementById("add-input-container").style.opacity = "1";
+        handleMenuClick(menuOpen);
+        setMenuOpen(!menuOpen);
+        document.getElementById("app-container").style.pointerEvents = "none";
+        document.getElementById("add-input-container").style.pointerEvents = "auto";
+        document.getElementById("black-screen").style.visibility = "visible";
+        document.getElementById("black-screen").style.opacity = "1";
+    }
+
+    const deleteAll = () => {
+        setLine([]);
+        setText("");
+        setInputSize([]);
+        setInputs([]);
+        setInputText([]);
+        document.getElementById("wheel-container").style.background = "#0a2373";
+        closeDelete();
+    }
+
+    const closeDelete = () => {
+        document.getElementById("delete-all-inputs").style.visibility = "hidden";
+        document.getElementById("delete-all-inputs").style.opacity = "0";
+        document.getElementById("app-container").style.pointerEvents = "auto";
+        setNewText([]);
+        document.getElementById("black-screen").style.visibility = "hidden";
+        document.getElementById("black-screen").style.opacity = "0";
+    }
+
+    const openDelete = () => {
+        document.getElementById("delete-all-inputs").style.visibility = "visible";
+        document.getElementById("delete-all-inputs").style.opacity = "1";
+        handleMenuClick(menuOpen);
+        setMenuOpen(!menuOpen);
+        document.getElementById("app-container").style.pointerEvents = "none";
+        document.getElementById("delete-all-inputs").style.pointerEvents = "auto";
+        document.getElementById("black-screen").style.visibility = "visible";
+        document.getElementById("black-screen").style.opacity = "1";
+    }
+
     return(
         <div id="app-container">
             
@@ -272,8 +377,8 @@ function App() {
                     <div id="text-inputs">{inputs}</div>
                 </div>
                 <div id="menu">
-                        <div id="add-input-list" className="menu-options1">Add Inputs</div>
-                        <div id="remove-inputs" className="menu-options1">Remove All Inputs</div>
+                        <div id="add-input-list" className="menu-options1" onClick={() => openInputTable()}>Add Inputs</div>
+                        <div id="remove-inputs" className="menu-options1" onClick={() => openDelete()}>Remove All Inputs</div>
                         <div id="toggle-duration" className="menu-options2">Wheel Duration: {wheelDuration}s
                             <input id="duration-range" type="range" max={10} min={1} defaultValue={4} onChange={(e) => handleToggleDuration(e.target.value)}></input>
                         </div>
@@ -283,9 +388,11 @@ function App() {
                 </div>
             </div>
 
+            <div id="black-screen"></div>
+
             <div id="win-container">
                 <div id="win-exit-button" className="pointer-hover"  onClick={() => handleWinClose()}>x</div>
-                <div id="win-message">{winVal[0]} <div id="smaller-text">was selected</div></div>
+                <div id="win-message"><div id="win-name">{winVal[0]}</div> <div id="smaller-text">was selected</div></div>
                 <div id="finished" className="pointer-hover" onClick={() => handleWinClose()}>Done!</div>
                 <div id="spin-again" className="pointer-hover"  onClick={() => {
                     handleWinClose();
@@ -295,6 +402,24 @@ function App() {
                     handleWinClose();
                     handleDeleteInputs(winVal[1] * 2);
                 }}>Hide this name</div>
+            </div>
+
+            <div id="add-input-container">
+                <div id="add-input-exit-button" onClick={() => closeInputTable()}>X</div>
+                <p className="add-input-text-labels">Current text (uneditable):</p>
+                <p className="add-input-text-labels">New text:</p>
+                <textarea id="current-text" value={inputText.toString().replace(/,/g, "\n")} readOnly></textarea>
+                <textarea id="new-text" placeholder="Type to add new text;
+Seperate inputs by new lines
+or by comma (,)" onChange={(e) => setNewText(e.target.value)} value={newText}></textarea>
+                <button id="add-input-confirm" onClick={(e) => newText == "" ? closeInputTable() : addInputTable(newText.split(/[\n,]/))}>Confirm</button>
+                <button id="add-input-cancel" onClick={() => closeInputTable()}>Cancel</button>
+            </div>
+
+            <div id="delete-all-inputs">
+                <p id="delete-sure">Are you sure?</p>
+                <button onClick={() => deleteAll()} className="delete-all-inputs-buttons">Yes</button>
+                <button className="delete-all-inputs-buttons" onClick={() => closeDelete()}>Cancel</button>
             </div>
         </div>
     );
