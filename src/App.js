@@ -39,9 +39,9 @@ function App() {
                     let width = context.measureText(value).width;
                     let first = inputSize.slice(0,index);
                     let second = inputSize.slice(index+1);
-                    if(width >= 190) {
-                        fontSize = 190 / width * fontSize;
-                        width = 190;
+                    if(width >= (document.getElementById("wheel-container").clientWidth / 2 - 60)) {
+                        fontSize = (document.getElementById("wheel-container").clientWidth / 2 - 60) / width * fontSize;
+                        width = (document.getElementById("wheel-container").clientWidth / 2 - 60);
                     }
                     let final = [...first, ...[[fontSize, width]], ...second];
                     handleWheelChange(total[total.length - 1], total.length * 2 - 2, total.slice(0, total.length - 1), final);
@@ -72,7 +72,7 @@ function App() {
                         }
                         for(let i = 0; i < inputSizeAfter.length; i++) {
                             let width = context.measureText(inputTextAfter[i]).width;
-                            if(inputSizeAfter[i][0] < fontSize && width < 190) {
+                            if(inputSizeAfter[i][0] < fontSize && width < (document.getElementById("wheel-container").clientWidth / 2 - 60)) {
                                 inputSizeAfter[i][0] = fontSize;
                                 inputSizeAfter[i][1] = width;
                             }
@@ -127,9 +127,9 @@ function App() {
                     final[i][0] = fontSize;
                 }
             }
-            if(width >= 190) {
-                fontSize = 190 / width * fontSize;
-                width = 190;
+            if(width >= (document.getElementById("wheel-container").clientWidth / 2 - 60)) {
+                fontSize = (document.getElementById("wheel-container").clientWidth / 2 - 60) / width * fontSize;
+                width = (document.getElementById("wheel-container").clientWidth / 2 - 60);
             }
             final = inputSize.concat([[fontSize, width]]);
             handleWheelChange(value, line.length, inputText, final);
@@ -168,7 +168,6 @@ function App() {
         const context = canvas.getContext("2d");
         context.font = "50px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
         let width = context.measureText(winText).width;
-        console.log(width);
         let fontSize = 50;
         if(width >= 380) {
             fontSize = 380 / width * 50;
@@ -283,9 +282,9 @@ function App() {
             if(fontSize > 35 || value.length < 3) {
                 fontSize = 35;
             }
-            if(width >= 190) {
-                fontSize = 190 / width * fontSize;
-                width = 190;
+            if(width >= (document.getElementById("wheel-container").clientWidth / 2 - 60)) {
+                fontSize = (document.getElementById("wheel-container").clientWidth / 2 - 60) / width * fontSize;
+                width = (document.getElementById("wheel-container").clientWidth / 2 - 60);
             }
             finalInputSize.push([fontSize, width]);
             if(i !== value.length - 1) finalInputText.push(value[i]);
