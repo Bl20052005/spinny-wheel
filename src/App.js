@@ -14,6 +14,7 @@ function App() {
     const [wheelDuration, setWheelDuration] = useState(4);
     const [volume, setVolume] = useState(50);
     const [newText, setNewText] = useState("");
+    const [colorPalate, setColorPalate] = useState(["#0a2373", "#184e80", "#227d87", "#45127a"]);
 
     const handleInputChange = (value, index) => {
         setInputText(inputText => {
@@ -76,7 +77,10 @@ function App() {
                                 inputSizeAfter[i][1] = width;
                             }
                         }
-                        handleWheelChange(inputTextAfter[inputTextAfter.length - 1], lineAfter.length - 2, inputTextAfter.slice(0, inputTextAfter.length - 1), inputSizeAfter);
+                        setColorPalate(colorPalate => {
+                            handleWheelChange(inputTextAfter[inputTextAfter.length - 1], lineAfter.length - 2, inputTextAfter.slice(0, inputTextAfter.length - 1), inputSizeAfter, colorPalate);
+                            return colorPalate;
+                        });
                         return inputSizeAfter;
                     });
                     setInputs(input => {
@@ -133,10 +137,10 @@ function App() {
         });
     }
 
-    const handleWheelChange = (value, length, inputText, inputSize) => {
+    const handleWheelChange = (value, length, inputText, inputSize, color = colorPalate) => {
         let newLine = [];
         let degrees = 0;
-        let bgColors = ["#0a2373", "#184e80", "#227d87", "#45127a"];
+        let bgColors = color;
         let bgStyle = "conic-gradient(";
         if(length !== 0){
             for(let i = 0; i < length / 2 + 1; i++) {                    
@@ -347,6 +351,165 @@ function App() {
         document.getElementById("black-screen").style.opacity = "1";
     }
 
+    const expandPalate = () => {
+        let r = document.querySelector(':root');
+        let rs = getComputedStyle(r).getPropertyValue("--body-background-color");
+        if(document.getElementById("arrow-container").dataset.open == "closed") {
+            r.style.setProperty('--left-rotation', "rotate(90deg)");
+            r.style.setProperty('--right-rotation', "rotate(270deg)");
+            r.style.setProperty('--left-background-color', rs);
+            document.getElementById("arrow-container").style.pointerEvents = "none";
+            document.getElementById("color-change").style.width = "90vw";
+            document.getElementById("color-change").style.borderRadius = "20px";
+            document.getElementById("arrow-left").style = "pointer-events: auto;";
+            document.getElementById("arrow-right").style = "pointer-events: auto;";
+            document.getElementById("arrow-container").dataset.open = "open";
+            document.querySelectorAll(".color-palate").forEach((item) => {
+                item.style.opacity = "1";
+                item.style.visibility = "visible";
+            });
+        } else {
+            r.style.setProperty('--left-rotation', "rotate(270deg)");
+            r.style.setProperty('--right-rotation', "rotate(90deg)");
+            r.style.setProperty('--left-background-color', "transparent");
+            document.getElementById("color-change").style.width = "120px";
+            document.getElementById("color-change").style.borderRadius = "50%";
+            document.getElementById("arrow-container").dataset.open = "closed";
+            document.getElementById("arrow-container").style.pointerEvents = "auto";
+            document.querySelectorAll(".color-palate").forEach((item) => {
+                item.style.opacity = "0";
+                item.style.visibility = "hidden";
+            });
+        }
+    }
+
+    const arrowsOnMouseOver = () => {
+        let r = document.querySelector(':root');
+        let rs = getComputedStyle(r).getPropertyValue("--body-background-color");
+        if(document.getElementById("arrow-container").dataset.open == "closed") {
+            document.getElementById("arrow-container").style.backgroundColor = rs;
+        }
+    }
+
+    const arrowsOnMouseOut = () => {
+        document.getElementById("arrow-container").style.background = "transparent";
+    }
+
+    const changeColor = (palate) => {
+        const r = document.querySelector(':root');
+        const colorsToChange = ["--body-background-color",
+        "--main-background-color",
+        "--menu-background-color",
+        "--menu-background-color-hover",
+        "--wheel-background-color",
+        "--spin-background-color",
+        "--text-input-background-color",
+        "--text-input-border-color",
+        "--scrollbar-track-color",
+        "--scrollbar-thumb-color",
+        "--pop-up-container-color",
+        "--color-change-background-color"];
+        let colors = [];
+        switch(palate) {
+            case 1:
+                colors = ["rgb(75, 76, 134)",
+                "rgb(111, 78, 143)",
+                "rgb(123, 34, 206)",
+                "rgb(90, 30, 146)",
+                "#0a2373",
+                "rgb(17, 71, 121)",
+                "rgba(80, 88, 155, 0.452)",
+                "rgb(52, 50, 80)",
+                "#4e7aff98",
+                "#473f8a",
+                "rgb(27, 29, 117)",
+                "#6d689b"];
+                setColorPalate(["#0a2373", "#184e80", "#227d87", "#45127a"]);
+                r.style.setProperty('--left-background-color', "rgb(75, 76, 134)");
+                setInputText(inputText => {
+                    setInputSize(inputSize => {
+                        handleWheelChange(inputText[inputText.length-1], inputText.length * 2 - 2, inputText.slice(0, inputText.length - 1), inputSize, ["#0a2373", "#184e80", "#227d87", "#45127a"]);
+                        return inputSize;
+                    });
+                    return inputText;
+                });
+                break;
+            case 2:
+                colors = ["rgb(129, 36, 32)",
+                "rgb(170, 85, 36)",
+                "rgb(163, 19, 0)",
+                "rgb(128, 23, 23)",
+                "#a02626",
+                "rgb(121, 17, 43)",
+                "rgba(177, 20, 20, 0.452)",
+                "rgb(102, 30, 42)",
+                "#d19512",
+                "#b8242498",
+                "rgb(146, 28, 7)",
+                "#a15252"];
+                setColorPalate(["#a02626", "#9e4b32", "#8b6512", "#852d56"]);
+                r.style.setProperty('--left-background-color', "rgb(129, 36, 32)");
+                setInputText(inputText => {
+                    setInputSize(inputSize => {
+                        handleWheelChange(inputText[inputText.length-1], inputText.length * 2 - 2, inputText.slice(0, inputText.length - 1), inputSize, ["#a02626", "#9e4b32", "#8b6512", "#852d56"]);
+                        return inputSize;
+                    });
+                    return inputText;
+                });
+                break;
+            case 3:
+                colors = ["rgb(26, 110, 26)",
+                "rgb(78, 143, 103)",
+                "rgb(14, 151, 128)",
+                "rgb(6, 128, 150)",
+                "#145a0b",
+                "rgb(12, 139, 161)",
+                "rgba(80, 128, 155, 0.452)",
+                "rgb(50, 80, 60)",
+                "#00a01b98",
+                "#11775e",
+                "rgb(14, 94, 18)",
+                "#689b82"];
+                setColorPalate(["#145a0b", "#004e2e", "#25791e", "#0f584c"]);
+                r.style.setProperty('--left-background-color', "rgb(26, 110, 26)");
+                setInputText(inputText => {
+                    setInputSize(inputSize => {
+                        handleWheelChange(inputText[inputText.length-1], inputText.length * 2 - 2, inputText.slice(0, inputText.length - 1), inputSize, ["#145a0b", "#004e2e", "#25791e", "#0f584c"]);
+                        return inputSize;
+                    });
+                    return inputText;
+                });
+                break;
+            case 4:
+                colors = ["rgb(102, 30, 98)",
+                "rgb(131, 15, 146)",
+                "rgb(197, 28, 183)",
+                "rgb(233, 17, 150)",
+                "#a82476",
+                "rgb(106, 41, 126)",
+                "rgba(95, 17, 105, 0.452)",
+                "rgb(77, 14, 71)",
+                "#de36e498",
+                "#5f245f",
+                "rgb(135, 14, 139)",
+                "#b34db3"];
+                setColorPalate(["#a82476", "#920b5e", "#920b43", "#721866"]);
+                r.style.setProperty('--left-background-color', "rgb(102, 30, 98)");
+                setInputText(inputText => {
+                    setInputSize(inputSize => {
+                        handleWheelChange(inputText[inputText.length-1], inputText.length * 2 - 2, inputText.slice(0, inputText.length - 1), inputSize, ["#a82476", "#920b5e", "#920b43", "#721866"]);
+                        return inputSize;
+                    });
+                    return inputText;
+                });
+                break;
+            
+        }
+        for(let i = 0; i < colorsToChange.length; i++) {
+            r.style.setProperty(colorsToChange[i],colors[i]);
+        }
+    }
+
     return(
         <div id="app-container">
             
@@ -385,6 +548,37 @@ function App() {
                         <div id="toggle-sound" className="menu-options2">Volume: {volume}
                             <input id="volume" type="range" defaultValue={50} min={0} max={100} onChange={(e) => handleVolumeChange(e.target.value)}></input>
                         </div>
+                </div>
+            </div>
+
+            <div id="color-change">
+                <div id="arrow-container" className="pointer-hover arrow-container-hover" data-open="closed" onClick={() => expandPalate()}></div>
+                <div className="arrows" id="arrow-left" onClick={() => expandPalate()} onMouseOver={() => arrowsOnMouseOver()} onMouseOut={() => arrowsOnMouseOut()}>^</div>
+                <div className="arrows" id="arrow-right" onClick={() => expandPalate()} onMouseOver={() => arrowsOnMouseOver()} onMouseOut={() => arrowsOnMouseOut()}>^</div>
+
+                <div id="color-palate-1" className="color-palate" onClick={() => changeColor(1)}>
+                    <div id="color-palate-1-color-1" className="color-examples"></div>
+                    <div id="color-palate-1-color-2" className="color-examples"></div>
+                    <div id="color-palate-1-color-3" className="color-examples"></div>
+                    <div id="color-palate-1-color-4" className="color-examples"></div>
+                </div>
+                <div id="color-palate-2" className="color-palate" onClick={() => changeColor(2)}>
+                    <div id="color-palate-2-color-1" className="color-examples"></div>
+                    <div id="color-palate-2-color-2" className="color-examples"></div>
+                    <div id="color-palate-2-color-3" className="color-examples"></div>
+                    <div id="color-palate-2-color-4" className="color-examples"></div>
+                </div>
+                <div id="color-palate-3" className="color-palate" onClick={() => changeColor(3)}>
+                    <div id="color-palate-3-color-1" className="color-examples"></div>
+                    <div id="color-palate-3-color-2" className="color-examples"></div>
+                    <div id="color-palate-3-color-3" className="color-examples"></div>
+                    <div id="color-palate-3-color-4" className="color-examples"></div>
+                </div>
+                <div id="color-palate-4" className="color-palate" onClick={() => changeColor(4)}>
+                    <div id="color-palate-4-color-1" className="color-examples"></div>
+                    <div id="color-palate-4-color-2" className="color-examples"></div>
+                    <div id="color-palate-4-color-3" className="color-examples"></div>
+                    <div id="color-palate-4-color-4" className="color-examples"></div>
                 </div>
             </div>
 
