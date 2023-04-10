@@ -18,6 +18,180 @@
     --left-background-color: transparent;
 }
 
+@media (max-width: 660px) {
+
+    .color-palate {
+        width: 75px;
+        height: 75px;
+    }
+
+    #color-change {
+        height: 90px;
+        width: 90px;
+        transform: rotate(90deg);
+    }
+
+    #arrow-left {
+        top: 22px; 
+        left: 12px;
+    }
+
+    #arrow-right {
+        top: 22px;
+        right: 12px;
+    }
+
+    #arrow-container {
+        top: 22px;
+    }
+
+    #wheel-container {
+        width: 300px;
+        height: 300px;
+    }
+
+    #main-container {
+        flex-direction: column;
+        width: 300px;
+    }
+
+    .wheel-divs, .wheel-lines {
+        height: 150px;
+        left: 150px;
+    }
+
+    #text-inputs {
+        width: 250px;
+        height: 500px;
+    }
+
+    .text-input, #items {
+        width: 200px;
+    }
+
+    #menu {
+        z-index: 1001;
+    }
+
+}
+
+@media (min-width: 1201px) {
+    .color-palate {
+        width: 100px;
+        height: 100px;
+        margin: 0;
+        padding: 0;
+    }
+
+    #color-change {
+        height: 120px;
+        width: 120px;
+    }
+
+    #arrow-left {
+        top: 35px; 
+        left: 24px;
+    }
+
+    #arrow-right {
+        top: 35px;
+        right: 24px;
+    }
+
+    #arrow-container {
+        top: 35px;
+    }
+
+    #wheel-container {
+        width: 500px;
+        height: 500px;
+    }
+
+    .wheel-divs, .wheel-lines {
+        height: 250px;
+        left: 250px;
+    }
+
+    #text-inputs {
+        width: 400px;
+        height: 500px;
+    }
+
+    .text-input, #items {
+        width: 350px;
+    }
+
+    #menu-container {
+        left: 1060px;
+    }
+
+    #menu {
+        left: 940px;
+    }
+}
+
+@media (min-width: 661px) and (max-width: 1200px) {
+    #root {
+        height: auto;
+    }
+
+    #main-container {
+        flex-direction: column;
+    }
+
+    .color-palate {
+        width: 75px;
+        height: 75px;
+    }
+
+    #color-change {
+        height: 90px;
+        width: 90px;
+    }
+
+    #arrow-left {
+        top: 22px; 
+        left: 12px;
+    }
+
+    #arrow-right {
+        top: 22px;
+        right: 12px;
+    }
+
+    #arrow-container {
+        top: 22px;
+    }
+
+    #wheel-container {
+        width: 500px;
+        height: 500px;
+    }
+
+    .wheel-divs, .wheel-lines {
+        height: 250px;
+        left: 250px;
+    }
+
+    #text-inputs {
+        width: 400px;
+        height: 500px;
+    }
+
+    .text-input, #items {
+        width: 350px;
+    }
+
+    #menu-container {
+        left: 540px;
+    }
+
+    #menu {
+        left: 415px;
+    }
+    
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -38,6 +212,7 @@ body {
     display: grid;
     grid-template-rows: 0.65fr 5fr 1fr;
     grid-template-columns: 1fr 1fr;
+    gap: 20px;
     align-items: center;
     justify-items: center;
     height: 100%;
@@ -73,7 +248,7 @@ body {
     gap: 100px;
     background-color:var(--main-background-color);
     padding: 75px 50px;
-    border-radius: 5%;
+    border-radius: 30px;
     transition: background-color 0.5s;
 }
 
@@ -84,7 +259,6 @@ body {
     background-color: transparent;
     position: absolute;
     top: 65px;
-    left: 940px;
     margin: 0;
     padding: 0;
     box-shadow: 2px 2px 2px #3f3f3f;
@@ -139,7 +313,6 @@ body {
 #menu-container {
     position: absolute;
     top: 25px;
-    left: 1060px;
     width: 40px;
     height: 40px;
     display: flex;
@@ -168,8 +341,6 @@ body {
 
 #wheel-container {
     position: relative;
-    width: 500px;
-    height: 500px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -196,8 +367,6 @@ body {
     top: 0px;
     color: white;
     width: 1px;
-    height: 250px;
-    left: 250px;
     transform-origin: bottom center;
 }
 
@@ -212,8 +381,6 @@ body {
 
 #text-inputs {
     overflow: auto;
-    width: 400px;
-    height: 500px;
     border: 2px solid white;
     padding: 10px;
     display: grid;
@@ -243,7 +410,6 @@ body {
 }
 
 .text-input, #items {
-    width: 350px;
     height: 30px;
     border: none;
     background-color: var(--text-input-background-color);
@@ -334,10 +500,6 @@ body {
     background-color:var(--color-change-background-color);
     color: white;
     border-radius: 50%;
-    margin: 0;
-    padding: 0;
-    height: 120px;
-    width: 120px;
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -349,7 +511,6 @@ body {
 
 #arrow-container {
     position: absolute;
-    top: 35px;
     border-radius: 50%;
     margin: 0;
     padding: 0;
@@ -363,8 +524,6 @@ body {
     transform: rotate(270deg);
     transition-duration: 1s;
     position: absolute;
-    top: 35px; 
-    left: 24px;
 }
 
 #arrow-left:hover {
@@ -376,8 +535,6 @@ body {
     transform: rotate(90deg);
     transition-duration: 1s;
     position: absolute;
-    top: 35px;
-    right: 24px;
 }
 
 #arrow-right:hover {
@@ -396,8 +553,6 @@ body {
 }
 
 .color-palate {
-    width: 100px;
-    height: 100px;
     grid-row: 1 / 3;
     align-self: center;
     display: flex;
@@ -523,7 +678,26 @@ body {
 #add-input-exit-button {
     grid-column: 2 / 3;
     justify-self: right;
-    margin: 20px 20px 0 0;
+    margin: 10px 20px 0 0;
+    font-size: 22px;
+}
+
+#add-input-confirm, #add-input-cancel {
+    border: 2px solid var(--main-background-color);
+    width: 100px;
+    height: 50px;
+    background-color: transparent;
+    color: white;
+    font-family: inherit;
+    font-size: 18px;
+    justify-self: center;
+    align-self: center;
+    transition-duration: 0.5s;
+    border-radius: 10px;
+}
+
+#add-input-confirm:hover, #add-input-cancel:hover {
+    transform: scale(1.15);
 }
 
 #current-text, #new-text {
@@ -532,6 +706,7 @@ body {
     border: 1px solid white;
     color: white;
     padding: 10px;
+    border-radius: 10px;
 }
 
 #win-container, #add-input-container, #delete-all-inputs {
@@ -584,9 +759,20 @@ body {
 .delete-all-inputs-buttons {
     width: 75px;
     height: 50px;
+    border: 2px solid var(--main-background-color);
+    background-color: transparent;
+    color: white;
+    font-family: inherit;
+    font-size: 18px;
+    transition-duration: 0.5s;
+    border-radius: 10px;
     justify-self: center;
     align-self: center;
     text-align: center;
+}
+
+.delete-all-inputs-buttons:hover {
+    transform: scale(1.15);
 }
 
 #win-exit-button {

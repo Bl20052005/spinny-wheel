@@ -327,7 +327,10 @@ function App() {
         setInputSize([]);
         setInputs([]);
         setInputText([]);
-        document.getElementById("wheel-container").style.background = "#0a2373";
+        setColorPalate(colorPalate => {
+            document.getElementById("wheel-container").style.background = colorPalate[0];
+            return colorPalate;
+        });
         closeDelete();
     }
 
@@ -360,6 +363,9 @@ function App() {
             r.style.setProperty('--left-background-color', rs);
             document.getElementById("arrow-container").style.pointerEvents = "none";
             document.getElementById("color-change").style.width = "90vw";
+            if(window.innerWidth > 1200) document.getElementById("color-change").style.height = "120px";
+            else document.getElementById("color-change").style.height = "90px";
+            if(window.innerWidth < 660) document.getElementById("color-change").style.marginTop = "250px";
             document.getElementById("color-change").style.borderRadius = "20px";
             document.getElementById("arrow-left").style = "pointer-events: auto;";
             document.getElementById("arrow-right").style = "pointer-events: auto;";
@@ -372,7 +378,14 @@ function App() {
             r.style.setProperty('--left-rotation', "rotate(270deg)");
             r.style.setProperty('--right-rotation', "rotate(90deg)");
             r.style.setProperty('--left-background-color', "transparent");
-            document.getElementById("color-change").style.width = "120px";
+            if(window.innerWidth > 1200) {
+                document.getElementById("color-change").style.width = "120px";
+                document.getElementById("color-change").style.height = "120px";
+            } else {
+                document.getElementById("color-change").style.width = "90px";
+                document.getElementById("color-change").style.height = "90px";
+            }
+            document.getElementById("color-change").style.marginTop = "0";
             document.getElementById("color-change").style.borderRadius = "50%";
             document.getElementById("arrow-container").dataset.open = "closed";
             document.getElementById("arrow-container").style.pointerEvents = "auto";
@@ -382,6 +395,35 @@ function App() {
             });
         }
     }
+
+    const onResize = () => {
+        if(window.innerWidth > 1200 && document.getElementById("arrow-container").dataset.open == "closed") {
+            document.getElementById("color-change").style.width = "120px";
+            document.getElementById("color-change").style.height = "120px";
+            document.getElementById("arrow-left").style = "top: 35px; left: 24px;";
+            document.getElementById("arrow-right").style = "top: 35px; right: 24px;";
+        } else if(window.innerWidth <= 1200 && document.getElementById("arrow-container").dataset.open == "closed" ) {
+            document.getElementById("color-change").style.width = "90px";
+            document.getElementById("color-change").style.height = "90px";
+            document.getElementById("arrow-left").style = "top: 22px; left: 12px;";
+            document.getElementById("arrow-right").style = "top: 22px; right: 12px;";
+        }
+
+        if(window.innerWidth > 1200 && document.getElementById("arrow-container").dataset.open == "open") {
+            document.getElementById("arrow-left").style = "top: 35px; left: 24px;";
+            document.getElementById("arrow-right").style = "top: 35px; right: 24px;";
+            document.getElementById("color-change").style.height = "120px";
+        } else if(window.innerWidth <= 1200 && document.getElementById("arrow-container").dataset.open == "open" ) {
+            document.getElementById("arrow-left").style = "top: 22px; left: 12px;";
+            document.getElementById("arrow-right").style = "top: 22px; right: 12px;";
+            document.getElementById("color-change").style.height = "90px";
+        }
+
+        if(window.innerWidth < 660 && document.getElementById("arrow-container").dataset.open == "open") document.getElementById("color-change").style.marginTop = "250px";
+        else document.getElementById("color-change").style.marginTop = "0";
+    };
+
+    window.addEventListener("resize", onResize);
 
     const arrowsOnMouseOver = () => {
         let r = document.querySelector(':root');
@@ -426,6 +468,7 @@ function App() {
                 "#6d689b"];
                 setColorPalate(["#0a2373", "#184e80", "#227d87", "#45127a"]);
                 r.style.setProperty('--left-background-color', "rgb(75, 76, 134)");
+                document.getElementById("wheel-container").style.background = "#0a2373";
                 setInputText(inputText => {
                     setInputSize(inputSize => {
                         handleWheelChange(inputText[inputText.length-1], inputText.length * 2 - 2, inputText.slice(0, inputText.length - 1), inputSize, ["#0a2373", "#184e80", "#227d87", "#45127a"]);
@@ -449,6 +492,7 @@ function App() {
                 "#a15252"];
                 setColorPalate(["#a02626", "#9e4b32", "#8b6512", "#852d56"]);
                 r.style.setProperty('--left-background-color', "rgb(129, 36, 32)");
+                document.getElementById("wheel-container").style.background = "#a02626";
                 setInputText(inputText => {
                     setInputSize(inputSize => {
                         handleWheelChange(inputText[inputText.length-1], inputText.length * 2 - 2, inputText.slice(0, inputText.length - 1), inputSize, ["#a02626", "#9e4b32", "#8b6512", "#852d56"]);
@@ -472,6 +516,7 @@ function App() {
                 "#689b82"];
                 setColorPalate(["#145a0b", "#004e2e", "#25791e", "#0f584c"]);
                 r.style.setProperty('--left-background-color', "rgb(26, 110, 26)");
+                document.getElementById("wheel-container").style.background = "#145a0b";
                 setInputText(inputText => {
                     setInputSize(inputSize => {
                         handleWheelChange(inputText[inputText.length-1], inputText.length * 2 - 2, inputText.slice(0, inputText.length - 1), inputSize, ["#145a0b", "#004e2e", "#25791e", "#0f584c"]);
@@ -491,10 +536,11 @@ function App() {
                 "rgb(77, 14, 71)",
                 "#de36e498",
                 "#5f245f",
-                "rgb(135, 14, 139)",
+                "rgb(125, 22, 129)",
                 "#b34db3"];
                 setColorPalate(["#a82476", "#920b5e", "#920b43", "#721866"]);
                 r.style.setProperty('--left-background-color', "rgb(102, 30, 98)");
+                document.getElementById("wheel-container").style.background = "#a82476";
                 setInputText(inputText => {
                     setInputSize(inputSize => {
                         handleWheelChange(inputText[inputText.length-1], inputText.length * 2 - 2, inputText.slice(0, inputText.length - 1), inputSize, ["#a82476", "#920b5e", "#920b43", "#721866"]);
@@ -553,28 +599,28 @@ function App() {
 
             <div id="color-change">
                 <div id="arrow-container" className="pointer-hover arrow-container-hover" data-open="closed" onClick={() => expandPalate()}></div>
-                <div className="arrows" id="arrow-left" onClick={() => expandPalate()} onMouseOver={() => arrowsOnMouseOver()} onMouseOut={() => arrowsOnMouseOut()}>^</div>
-                <div className="arrows" id="arrow-right" onClick={() => expandPalate()} onMouseOver={() => arrowsOnMouseOver()} onMouseOut={() => arrowsOnMouseOut()}>^</div>
+                <div className="arrows pointer-hover" id="arrow-left" onClick={() => expandPalate()} onMouseOver={() => arrowsOnMouseOver()} onMouseOut={() => arrowsOnMouseOut()}>^</div>
+                <div className="arrows pointer-hover" id="arrow-right" onClick={() => expandPalate()} onMouseOver={() => arrowsOnMouseOver()} onMouseOut={() => arrowsOnMouseOut()}>^</div>
 
-                <div id="color-palate-1" className="color-palate" onClick={() => changeColor(1)}>
+                <div id="color-palate-1" className="color-palate pointer-hover" onClick={() => changeColor(1)}>
                     <div id="color-palate-1-color-1" className="color-examples"></div>
                     <div id="color-palate-1-color-2" className="color-examples"></div>
                     <div id="color-palate-1-color-3" className="color-examples"></div>
                     <div id="color-palate-1-color-4" className="color-examples"></div>
                 </div>
-                <div id="color-palate-2" className="color-palate" onClick={() => changeColor(2)}>
+                <div id="color-palate-2" className="color-palate pointer-hover" onClick={() => changeColor(2)}>
                     <div id="color-palate-2-color-1" className="color-examples"></div>
                     <div id="color-palate-2-color-2" className="color-examples"></div>
                     <div id="color-palate-2-color-3" className="color-examples"></div>
                     <div id="color-palate-2-color-4" className="color-examples"></div>
                 </div>
-                <div id="color-palate-3" className="color-palate" onClick={() => changeColor(3)}>
+                <div id="color-palate-3" className="color-palate pointer-hover" onClick={() => changeColor(3)}>
                     <div id="color-palate-3-color-1" className="color-examples"></div>
                     <div id="color-palate-3-color-2" className="color-examples"></div>
                     <div id="color-palate-3-color-3" className="color-examples"></div>
                     <div id="color-palate-3-color-4" className="color-examples"></div>
                 </div>
-                <div id="color-palate-4" className="color-palate" onClick={() => changeColor(4)}>
+                <div id="color-palate-4" className="color-palate pointer-hover" onClick={() => changeColor(4)}>
                     <div id="color-palate-4-color-1" className="color-examples"></div>
                     <div id="color-palate-4-color-2" className="color-examples"></div>
                     <div id="color-palate-4-color-3" className="color-examples"></div>
@@ -599,7 +645,7 @@ function App() {
             </div>
 
             <div id="add-input-container">
-                <div id="add-input-exit-button" onClick={() => closeInputTable()}>X</div>
+                <div id="add-input-exit-button" className="pointer-hover" onClick={() => closeInputTable()}>X</div>
                 <p className="add-input-text-labels">Current text (uneditable):</p>
                 <p className="add-input-text-labels">New text:</p>
                 <textarea id="current-text" value={inputText.toString().replace(/,/g, "\n")} readOnly></textarea>
