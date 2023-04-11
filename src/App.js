@@ -361,7 +361,8 @@ function App() {
             r.style.setProperty('--right-rotation', "rotate(270deg)");
             r.style.setProperty('--left-background-color', rs);
             document.getElementById("arrow-container").style.pointerEvents = "none";
-            document.getElementById("color-change").style.width = "90vw";
+            if(window.innerWidth >= 660) document.getElementById("color-change").style.width = "90vw";
+            else document.getElementById("color-change").style.width = "500px";
             if(window.innerWidth > 1200) document.getElementById("color-change").style.height = "120px";
             else document.getElementById("color-change").style.height = "90px";
             if(window.innerWidth < 660) document.getElementById("color-change").style.marginTop = "250px";
@@ -412,13 +413,18 @@ function App() {
             document.getElementById("arrow-left").style = "top: 35px; left: 24px;";
             document.getElementById("arrow-right").style = "top: 35px; right: 24px;";
             document.getElementById("color-change").style.height = "120px";
+            document.getElementById("color-change").style.width = "90vw";
         } else if(window.innerWidth <= 1200 && document.getElementById("arrow-container").dataset.open == "open" ) {
             document.getElementById("arrow-left").style = "top: 22px; left: 12px;";
             document.getElementById("arrow-right").style = "top: 22px; right: 12px;";
             document.getElementById("color-change").style.height = "90px";
+            document.getElementById("color-change").style.width = "90vw";
         }
 
-        if(window.innerWidth < 660 && document.getElementById("arrow-container").dataset.open == "open") document.getElementById("color-change").style.marginTop = "250px";
+        if(window.innerWidth < 660 && document.getElementById("arrow-container").dataset.open == "open") {
+            document.getElementById("color-change").style.marginTop = "250px";
+            document.getElementById("color-change").style.width = "500px";
+        }
         else document.getElementById("color-change").style.marginTop = "0";
     };
 
