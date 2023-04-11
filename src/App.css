@@ -21,28 +21,29 @@
 @media (max-width: 660px) {
 
     .color-palate {
-        width: 75px;
-        height: 75px;
+        width: 50px;
+        height: 50px;
     }
 
     #color-change {
-        height: 90px;
-        width: 90px;
-        transform: rotate(90deg);
+        height: 70px;
+        width: 70px;
     }
 
     #arrow-left {
-        top: 22px; 
+        top: 20px; 
         left: 12px;
     }
 
     #arrow-right {
-        top: 22px;
+        top: 20px; 
         right: 12px;
     }
 
     #arrow-container {
-        top: 22px;
+        top: 15px;
+        height: 40px;
+        width: 40px;
     }
 
     #wheel-container {
@@ -70,7 +71,18 @@
     }
 
     #menu {
-        z-index: 1001;
+        z-index: 2;
+    }
+
+    .arrows {
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+    }
+
+    #spin-again, #finished, #hide-current-name {
+        font-size: 16px;
+        text-align: center;
     }
 
 }
@@ -100,6 +112,8 @@
 
     #arrow-container {
         top: 35px;
+        height: 50px;
+        width: 50px;
     }
 
     #wheel-container {
@@ -128,6 +142,17 @@
     #menu {
         left: 940px;
     }
+
+    .arrows {
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+    }
+
+    #spin-again, #finished, #hide-current-name {
+        font-size: 20px;
+    }
+
 }
 
 @media (min-width: 661px) and (max-width: 1200px) {
@@ -160,7 +185,9 @@
     }
 
     #arrow-container {
-        top: 22px;
+        top: 35px;
+        height: 50px;
+        width: 50px;
     }
 
     #wheel-container {
@@ -188,6 +215,16 @@
 
     #menu {
         left: 415px;
+    }
+
+    .arrows {
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+    }
+
+    #spin-again, #finished, #hide-current-name {
+        font-size: 20px;
     }
     
 }
@@ -515,8 +552,6 @@ body {
     border-radius: 50%;
     margin: 0;
     padding: 0;
-    height: 50px;
-    width: 50px;
     transition-duration: 0.5s;
     font-size: 25px;
 }
@@ -547,10 +582,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
     border-radius: 50%;
-    font-size: 25px;
 }
 
 .color-palate {
@@ -722,8 +754,11 @@ body {
 }
 
 #win-container, #add-input-container {
-    width: 500px;
-    height: 500px;
+    max-width: 500px;
+    min-width: 210px;
+    max-height: 500px;
+    width: 50vw;
+    height: 50vh;
 }
 
 .add-input-text-labels {
@@ -741,7 +776,9 @@ body {
 }
 
 #delete-all-inputs {
-    width: 500px;
+    text-align: center;
+    width: 50%;
+    max-width: 500px;
     height: 200px;
     display: grid;
     font-size: 40px;
@@ -755,6 +792,7 @@ body {
 #delete-sure {
     grid-column: 1 / 3;
     justify-self: center;
+    align-self: center;
 }
 
 .delete-all-inputs-buttons {
@@ -779,17 +817,16 @@ body {
 #win-exit-button {
     position: absolute;
     top: 10px;
-    left: 475px;
+    right: 3%;
     font-size: 20px;
     color: white;
 }
 
 #win-message {
-    width: 400px;
-    height: auto;
-    min-height: 200px;
+    width: 80%;
+    height: 40%;
     text-align: center;
-    border-radius: 5%;
+    border-radius: 10px;
     border: 2px solid white;
     display: flex;
     flex-direction: column;
@@ -810,13 +847,12 @@ body {
 }
 
 #spin-again, #finished, #hide-current-name {
-    width: 250px;
+    width: 50%;
     height: 40px;
     border: 2px solid white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
     color: white;
 }

@@ -169,8 +169,12 @@ function App() {
         context.font = "50px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
         let width = context.measureText(winText).width;
         let fontSize = 50;
-        if(width >= 380) {
-            fontSize = 380 / width * 50;
+        let windowWidth = 400;
+        if(windowWidth > window.innerWidth / 2 * 0.8 - 20) {
+            windowWidth = window.innerWidth / 2 * 0.8 - 20
+        }
+        if(width >= windowWidth) {
+            fontSize = windowWidth / width * 50;
         }
         if(winText.trim() !== "") {
             document.getElementById("win-message").style.fontSize = fontSize + "px";
@@ -361,11 +365,10 @@ function App() {
             r.style.setProperty('--right-rotation', "rotate(270deg)");
             r.style.setProperty('--left-background-color', rs);
             document.getElementById("arrow-container").style.pointerEvents = "none";
-            if(window.innerWidth >= 660) document.getElementById("color-change").style.width = "90vw";
-            else document.getElementById("color-change").style.width = "500px";
+            document.getElementById("color-change").style.width = "90vw";
             if(window.innerWidth > 1200) document.getElementById("color-change").style.height = "120px";
-            else document.getElementById("color-change").style.height = "90px";
-            if(window.innerWidth < 660) document.getElementById("color-change").style.marginTop = "250px";
+            else if(window.innerWidth <= 1200 && window.innerWidth >= 660) document.getElementById("color-change").style.height = "90px";
+            else document.getElementById("color-change").style.height = "70px";
             document.getElementById("color-change").style.borderRadius = "20px";
             document.getElementById("arrow-left").style = "pointer-events: auto;";
             document.getElementById("arrow-right").style = "pointer-events: auto;";
@@ -381,11 +384,13 @@ function App() {
             if(window.innerWidth > 1200) {
                 document.getElementById("color-change").style.width = "120px";
                 document.getElementById("color-change").style.height = "120px";
-            } else {
+            } else if(window.innerWidth <= 1200 && window.innerWidth >= 660) {
                 document.getElementById("color-change").style.width = "90px";
                 document.getElementById("color-change").style.height = "90px";
+            } else {
+                document.getElementById("color-change").style.width = "70px";
+                document.getElementById("color-change").style.height = "70px";
             }
-            document.getElementById("color-change").style.marginTop = "0";
             document.getElementById("color-change").style.borderRadius = "50%";
             document.getElementById("arrow-container").dataset.open = "closed";
             document.getElementById("arrow-container").style.pointerEvents = "auto";
@@ -402,30 +407,31 @@ function App() {
             document.getElementById("color-change").style.height = "120px";
             document.getElementById("arrow-left").style = "top: 35px; left: 24px;";
             document.getElementById("arrow-right").style = "top: 35px; right: 24px;";
-        } else if(window.innerWidth <= 1200 && document.getElementById("arrow-container").dataset.open == "closed" ) {
+        } else if(window.innerWidth <= 1200 && window.innerWidth >= 660 && document.getElementById("arrow-container").dataset.open == "closed" ) {
             document.getElementById("color-change").style.width = "90px";
             document.getElementById("color-change").style.height = "90px";
             document.getElementById("arrow-left").style = "top: 22px; left: 12px;";
             document.getElementById("arrow-right").style = "top: 22px; right: 12px;";
+        } else if(window.innerWidth < 660 && document.getElementById("arrow-container").dataset.open == "closed" ) {
+            document.getElementById("color-change").style.width = "70px";
+            document.getElementById("color-change").style.height = "70px";
+            document.getElementById("arrow-left").style = "top: 20px; left: 12px;";
+            document.getElementById("arrow-right").style = "top: 20px; right: 12px;";
         }
 
         if(window.innerWidth > 1200 && document.getElementById("arrow-container").dataset.open == "open") {
             document.getElementById("arrow-left").style = "top: 35px; left: 24px;";
             document.getElementById("arrow-right").style = "top: 35px; right: 24px;";
             document.getElementById("color-change").style.height = "120px";
-            document.getElementById("color-change").style.width = "90vw";
-        } else if(window.innerWidth <= 1200 && document.getElementById("arrow-container").dataset.open == "open" ) {
+        } else if(window.innerWidth <= 1200 && window.innerWidth >= 660 && document.getElementById("arrow-container").dataset.open == "open" ) {
             document.getElementById("arrow-left").style = "top: 22px; left: 12px;";
             document.getElementById("arrow-right").style = "top: 22px; right: 12px;";
             document.getElementById("color-change").style.height = "90px";
-            document.getElementById("color-change").style.width = "90vw";
+        } else if(window.innerWidth < 660 && document.getElementById("arrow-container").dataset.open == "open" ) {
+            document.getElementById("arrow-left").style = "top: 20px; left: 12px;";
+            document.getElementById("arrow-right").style = "top: 20px; right: 12px;";
+            document.getElementById("color-change").style.height = "70px";
         }
-
-        if(window.innerWidth < 660 && document.getElementById("arrow-container").dataset.open == "open") {
-            document.getElementById("color-change").style.marginTop = "250px";
-            document.getElementById("color-change").style.width = "500px";
-        }
-        else document.getElementById("color-change").style.marginTop = "0";
     };
 
     window.addEventListener("resize", onResize);
