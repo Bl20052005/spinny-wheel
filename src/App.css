@@ -751,6 +751,9 @@ body {
     background-color: var(--pop-up-container-color);
     border-radius: 5%;
     z-index: 99999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #win-container, #add-input-container {
