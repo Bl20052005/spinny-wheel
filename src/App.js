@@ -365,6 +365,7 @@ function App() {
             r.style.setProperty('--right-rotation', "rotate(270deg)");
             r.style.setProperty('--left-background-color', rs);
             document.getElementById("arrow-container").style.pointerEvents = "none";
+            document.getElementById("arrow-container").style.zIndex = "-1";
             document.getElementById("color-change").style.width = "90vw";
             if(window.innerWidth > 1200) document.getElementById("color-change").style.height = "120px";
             else if(window.innerWidth <= 1200 && window.innerWidth >= 660) document.getElementById("color-change").style.height = "90px";
@@ -394,6 +395,7 @@ function App() {
             document.getElementById("color-change").style.borderRadius = "50%";
             document.getElementById("arrow-container").dataset.open = "closed";
             document.getElementById("arrow-container").style.pointerEvents = "auto";
+            document.getElementById("arrow-container").style.zIndex = "";
             document.querySelectorAll(".color-palate").forEach((item) => {
                 item.style.opacity = "0";
                 item.style.visibility = "hidden";
