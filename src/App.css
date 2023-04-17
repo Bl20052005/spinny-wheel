@@ -185,7 +185,7 @@
     }
 
     #arrow-container {
-        top: 35px;
+        top: 22px;
         height: 50px;
         width: 50px;
     }
@@ -234,7 +234,6 @@ body {
     padding: 0;
     background-color: var(--body-background-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow-x: hidden;
 }
 
 #root {
@@ -353,20 +352,28 @@ body {
     width: 40px;
     height: 40px;
     display: flex;
+    justify-content: space-evenly;
     flex-direction: column;
+    align-items: center;
 }
 
 .menu-line {
     margin: 0;
     padding: 0;
-    height: 10px;
-    width: 40px;
+    height: 4px;
+    background-color: black;
+    width: 30px;
     font-size: 60px;
     position: relative;
-    top: -60px;
-    left: 7px;
     transition-duration: 0.3s;
-    transform-origin: 0px 60px;
+}
+
+#menu-line-one {
+    transform-origin: center left;
+}
+
+#menu-line-three {
+    transform-origin: center left;
 }
 
 #inputs {
@@ -507,7 +514,8 @@ body {
     justify-content: center;
     z-index: 2;
     color: white;
-    transition: background-color 0.5s;
+    transition-duration: 0.5s;
+    box-shadow: 1px 1px 1px var(--wheel-background-color);
 }
 
 #start-spin-triangle {
@@ -519,7 +527,12 @@ body {
     border-bottom: 20px solid var(--spin-background-color);
     top: -12px;
     left: 15px;
-    transition: border-color 0.5s;
+    transition-duration: 0.5s;
+}
+
+#start-spin:hover {
+    transition-duration: 0.5s;
+    transform: translateY(5px) scale(1.05);
 }
 
 #wheel-container-container {
@@ -706,6 +719,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 20px;
+    min-height: 285px;
 }
 
 #add-input-exit-button {
@@ -717,12 +731,14 @@ body {
 
 #add-input-confirm, #add-input-cancel {
     border: 2px solid var(--main-background-color);
+    padding: 0;
     width: 100px;
     height: 50px;
     background-color: transparent;
     color: white;
     font-family: inherit;
     font-size: 18px;
+    text-align: center;
     justify-self: center;
     align-self: center;
     transition-duration: 0.5s;
@@ -740,6 +756,7 @@ body {
     color: white;
     padding: 10px;
     border-radius: 10px;
+    min-height: 75px;
 }
 
 #win-container, #add-input-container, #delete-all-inputs {
@@ -776,12 +793,14 @@ body {
     grid-template-rows: 50px 30px auto 70px;
     gap: 10px;
     padding: 10px;
+    min-height: 285px;
 }
 
 #delete-all-inputs {
     text-align: center;
     width: 50%;
     max-width: 500px;
+    min-width: 200px;
     height: 200px;
     display: grid;
     font-size: 40px;
@@ -800,6 +819,7 @@ body {
 
 .delete-all-inputs-buttons {
     width: 75px;
+    padding: 0;
     height: 50px;
     border: 2px solid var(--main-background-color);
     background-color: transparent;

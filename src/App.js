@@ -16,7 +16,7 @@ function App() {
     const [newText, setNewText] = useState("");
     const [colorPalate, setColorPalate] = useState(["#0a2373", "#184e80", "#227d87", "#45127a"]);
 
-    const handleInputChange = (value, index) => {
+    const handleInputChange = (value, index, curWidth = document.getElementById("wheel-container").clientWidth) => {
         setInputText(inputText => {
             let before = inputText.slice(0,index);
             let after = inputText.slice(index+1);
@@ -39,9 +39,9 @@ function App() {
                     let width = context.measureText(value).width;
                     let first = inputSize.slice(0,index);
                     let second = inputSize.slice(index+1);
-                    if(width >= (document.getElementById("wheel-container").clientWidth / 2 - 60)) {
-                        fontSize = (document.getElementById("wheel-container").clientWidth / 2 - 60) / width * fontSize;
-                        width = (document.getElementById("wheel-container").clientWidth / 2 - 60);
+                    if(width >= (curWidth / 2 - 60)) {
+                        fontSize = (curWidth / 2 - 60) / width * fontSize;
+                        width = (curWidth / 2 - 60);
                     }
                     let final = [...first, ...[[fontSize, width]], ...second];
                     handleWheelChange(total[total.length - 1], total.length * 2 - 2, total.slice(0, total.length - 1), final);
@@ -112,15 +112,15 @@ function App() {
             });
             return inputTextAfter;
         });
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        context.font = "35px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
-        let width = context.measureText(text).width;
         setInputSize(inputSize => {
             let fontSize = (Math.sin((360 / (inputSize.length + 1)) * Math.PI / 180) * 80) * 0.9;
             if(fontSize > 35 || inputSize.length + 1 < 3) {
                 fontSize = 35;
             }
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+            context.font = `${fontSize}px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`;
+            let width = context.measureText(text).width;
             let final = inputSize;
             for(let i = 0; i < final.length; i++) {
                 if(final[i][0] > fontSize) {
@@ -169,7 +169,7 @@ function App() {
         context.font = "50px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
         let width = context.measureText(winText).width;
         let fontSize = 50;
-        let windowWidth = 400;
+        let windowWidth = 380;
         if(windowWidth > window.innerWidth / 2 * 0.8 - 20) {
             windowWidth = window.innerWidth / 2 * 0.8 - 20
         }
@@ -235,22 +235,17 @@ function App() {
             document.getElementById("menu").style.visibility = "visible";
             document.getElementById("menu").style.opacity = "1";
             document.getElementById("menu").style.height = "240px";
-            document.getElementById("menu-line-two").style.opacity = "0";
+            document.getElementById("menu-line-two").style.width = "0";
             document.getElementById("menu-line-one").style.transform = "rotate(45deg)";
-            document.getElementById("menu-line-three").style.left = "-3px";
-            document.getElementById("menu-line-one").style.left = "14px";
-            document.getElementById("menu-line-three").style.top = "-62px";
             document.getElementById("menu-line-three").style.transform = "rotate(-45deg)";
             setMenuOpen(!open);
         } else {
             document.getElementById("menu").style.visibility = "hidden";
             document.getElementById("menu").style.opacity = "0";
             document.getElementById("menu").style.height = "0px";
+            document.getElementById("menu-line-two").style.width = "30px";
             document.getElementById("menu-line-two").style.opacity = "1";
             document.getElementById("menu-line-one").style.transform = "rotate(0deg)";
-            document.getElementById("menu-line-three").style.left = "7px";
-            document.getElementById("menu-line-one").style.left = "7px";
-            document.getElementById("menu-line-three").style.top = "-60px";
             document.getElementById("menu-line-three").style.transform = "rotate(0deg)";
             setMenuOpen(!open);
         }
@@ -434,6 +429,26 @@ function App() {
             document.getElementById("arrow-right").style = "top: 20px; right: 12px;";
             document.getElementById("color-change").style.height = "70px";
         }
+
+        setInputText(inputText => {
+            if(document.getElementById("wheel-container").dataset.current === "none") {
+                for(let i = 0; i < inputText.length; i++) {
+                    handleInputChange(inputText[i], i, document.getElementById("wheel-container").clientWidth);
+                }
+                document.getElementById("wheel-container").dataset.current = document.getElementById("wheel-container").clientWidth;
+            } else if(document.getElementById("wheel-container").clientWidth === 500 && document.getElementById("wheel-container").dataset.current === "500") {
+                for(let i = 0; i < inputText.length; i++) {
+                    handleInputChange(inputText[i], i, 500);
+                }
+                document.getElementById("wheel-container").dataset.current = "300";
+            } else if(document.getElementById("wheel-container").clientWidth === 300 && document.getElementById("wheel-container").dataset.current === "300") {
+                for(let i = 0; i < inputText.length; i++) {
+                    handleInputChange(inputText[i], i, 300);
+                }
+                document.getElementById("wheel-container").dataset.current = "500";
+            }
+            return inputText;
+        });  
     };
 
     window.addEventListener("resize", onResize);
@@ -579,12 +594,12 @@ function App() {
             <div id="main-container">
                 <div id="menu-container">
                     <div id="menu-click" onClick={() => handleMenuClick(menuOpen)}></div>
-                    <div className="menu-line" id="menu-line-one">_</div>
-                    <div className="menu-line" id="menu-line-two">_</div>
-                    <div className="menu-line" id="menu-line-three">_</div>
+                    <div className="menu-line" id="menu-line-one"></div>
+                    <div className="menu-line" id="menu-line-two"></div>
+                    <div className="menu-line" id="menu-line-three"></div>
                 </div>
                 <div id="wheel-container-container">
-                    <div id="wheel-container" >
+                    <div id="wheel-container" data-current="none">
                         <div id="lines">{line}</div>
                     </div>
                     <div id="start-spin" className="pointer-hover" onClick={(e) => {if(inputText.length > 0) handleWheelSpin(e)}}>Spin <div id="start-spin-triangle"></div></div>
@@ -593,7 +608,7 @@ function App() {
                 </div>
                 <div id="inputs">
                     <div id="item-container">
-                        <input type="text" placeholder="Enter Names Here..." id="items" value = {text} onChange={(e) => setText(e.target.value)}/>
+                        <input type="text" placeholder="Enter Names Here..." id="items" value = {text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => {if(e.key === "Enter") addInput(e.target.value)}}/>
                         <button id="add-text" className="pointer-hover" onClick={() => addInput(text)}>+</button>
                     </div>
                     <div id="text-inputs">{inputs}</div>
@@ -665,14 +680,14 @@ function App() {
                 <textarea id="new-text" placeholder="Type to add new text;
 Seperate inputs by new lines
 or by comma (,)" onChange={(e) => setNewText(e.target.value)} value={newText}></textarea>
-                <button id="add-input-confirm" onClick={(e) => newText == "" ? closeInputTable() : addInputTable(newText.split(/[\n,]/))}>Confirm</button>
-                <button id="add-input-cancel" onClick={() => closeInputTable()}>Cancel</button>
+                <button id="add-input-confirm" className="pointer-hover" onClick={(e) => newText == "" ? closeInputTable() : addInputTable(newText.split(/[\n,]/))}>Confirm</button>
+                <button id="add-input-cancel" className="pointer-hover" onClick={() => closeInputTable()}>Cancel</button>
             </div>
 
             <div id="delete-all-inputs">
                 <p id="delete-sure">Are you sure?</p>
-                <button onClick={() => deleteAll()} className="delete-all-inputs-buttons">Yes</button>
-                <button className="delete-all-inputs-buttons" onClick={() => closeDelete()}>Cancel</button>
+                <button onClick={() => deleteAll()} className="delete-all-inputs-buttons pointer-hover">Yes</button>
+                <button className="delete-all-inputs-buttons pointer-hover" onClick={() => closeDelete()}>Cancel</button>
             </div>
         </div>
     );
